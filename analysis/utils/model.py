@@ -64,7 +64,7 @@ class Classifier:
         # Train-test-split
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.dataset, self.enrichment.squeeze(), test_size=0.2, random_state=42)
         
-        # Feature Scaling so that the numbers in different categories are similar
+        # Feature scaling so that the numbers in different categories are similar
         self.sc = self.min_max
         self.X_train = self.sc.fit_transform(self.X_train)
         self.X_test = self.sc.transform(self.X_test)

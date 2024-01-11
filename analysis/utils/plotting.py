@@ -10,8 +10,12 @@ sns.set_style("ticks", rc={'font.family':'sans-serif', 'font.sans-serif':'Droid 
 plt.style.use('./utils/domain_ins.mplstyle')
 plt.rcParams['svg.fonttype'] = 'none'
 
-def r(x, y):
+def r_pearson(x, y):
     return stats.pearsonr(x, y)[0]
+
+def r_spearman(x, y):
+    return stats.spearmanr(x, y)[0]
+
 
 def create_enrichment_fig(data_norm_1, data_norm_2, combination, condition, prot_dict, out_folder):
     plt.figure(figsize=(10,3))
@@ -82,7 +86,7 @@ def correlation_plot(data, combination, condition, out_folder):
     plt.rcParams['axes.linewidth'] = 2
     ax = sns.regplot(data=data, x='Replicate-2', y='Replicate-1', color='grey', 
         scatter_kws={"color": 'grey', 'alpha':.4, 'linewidth':0}, line_kws={"color": 'grey', 
-        'label':f"Pearson's r: {round(r(data['Replicate-2'], data['Replicate-1']), 2)}"})
+        'label':f"Pearson's r: {round(r_pearson(data['Replicate-2'], data['Replicate-1']), 2)}"})
     plt.xlabel("Rep-2 log2 enriched read counts")
     plt.ylabel("Rep-1 log2 enriched read counts")
     plt.xlim(data.min().min()-1, data.max().max() +1)
@@ -102,7 +106,7 @@ def feature_correlation_plot(data, combination, property, fig_folder):
     plt.rcParams['axes.linewidth'] = 2
     g = sns.regplot(data=data, x=property, y='enrichment', color='grey', ci=None, 
         scatter_kws={'alpha':.5, 'linewidth':0}, line_kws={"linewidth":0, 
-        'label':f"Spearman's r: {round(r(data[property], data['enrichment']), 2)}"})
+        'label':f"Spearman's r: {round(r_spearman(data[property], data['enrichment']), 2)}"})
     
     plt.xlabel(property)
     plt.ylabel("Log2 variant enrichment")
